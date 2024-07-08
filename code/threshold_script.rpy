@@ -1,5 +1,5 @@
 init python:
-    class thld_FunctionCallback(Action):
+    class ThldFunctionCallback(Action):
         def __init__(self,function, *arguments):
             self.function = function
             self.arguments = arguments
