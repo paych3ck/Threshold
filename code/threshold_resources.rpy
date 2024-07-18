@@ -55,9 +55,9 @@ init python:
     thld_names["thld_preacher"] = "Проповедник"
     store.thld_names_list.append("thld_preacher")
 
-    din_colors["thld_third"] = {"speaker_color": (0, 73, 121, 255)}
-    din_names["thld_third"] = "Третий"
-    store.din_names_list.append("thld_third")
+    thld_colors["thld_third"] = {"speaker_color": (0, 73, 121, 255)}
+    thld_names["thld_third"] = "Третий"
+    store.thld_names_list.append("thld_third")
 
     thld_colors["thld_pi_ann"] = {"speaker_color": (175, 145, 81, 255)}
     thld_names["thld_pi_ann"] = "Распорядитель"
