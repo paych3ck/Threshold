@@ -55,6 +55,10 @@ init python:
     thld_names["thld_preacher"] = "Проповедник"
     store.thld_names_list.append("thld_preacher")
 
+    thld_colors["thld_pi_preacher"] = {"speaker_color": '#FFFFFF'}
+    thld_names["thld_pi_preacher"] = "Пионер в халате"
+    store.thld_names_list.append("thld_pi_preacher")
+
     thld_colors["thld_third"] = {"speaker_color": (0, 73, 121, 255)}
     thld_names["thld_third"] = "Третий"
     store.thld_names_list.append("thld_third")
@@ -74,6 +78,14 @@ init python:
     thld_colors["thld_nit"] = {"speaker_color": (159, 147, 147, 255)}
     thld_names["thld_nit"] = "Ниточник"
     store.thld_names_list.append("thld_nit")
+
+    thld_colors["thld_pharos"] = {"speaker_color": (1, 1, 1, 255)} # цвет поменять
+    thld_names["thld_pharos"] = "Маяк"
+    store.thld_names_list.append("thld_pharos")
+
+    thld_colors["thld_pi_pharos"] = {"speaker_color": (1, 1, 1, 255)} # цвет поменять
+    thld_names["thld_pi_pharos"] = "Пионер"
+    store.thld_names_list.append("thld_pi_pharos")
 
     def thld_char_define(character_name, is_nvl=False):
         global DynamicCharacter
