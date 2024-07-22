@@ -376,16 +376,37 @@ init python:
         def __eq__(self, other):
             return (type(self) == type(other)) and (self.args == other.args) and (self.kwargs == other.kwargs)
 
-    class ThldTextRectangle(renpy.Displayable):
-        def __init__(self, padding, alpha, text, font=None, size=20, **kwargs):
-            super(ThldTextRectangle, self).__init__(**kwargs)
-            self.padding = padding
+    class ThldRectangle(renpy.Displayable):
+        def __init__(self, width, height, alpha, **kwargs):
+            super(ThldRectangle, self).__init__(**kwargs)
+            self.width = width
+            self.height = height
             self.alpha = alpha
+            self.frame = Solid("#000000", xsize=self.width, ysize=self.height)
+
+        def render_frame(self, width, height, st, at):
+            t = Transform(child=self.frame, alpha=self.alpha)
+            obj = renpy.render(t, width, height, st, at)
+            render = renpy.Render(self.width, self.height)
+            render.blit(obj, (0, 0))
+            return render
+
+    class ThldBlackRectangle(ThldRectangle):
+        def __init__(self, width, height, alpha, **kwargs):
+            super(ThldBlackRectangle, self).__init__(width, height, alpha, **kwargs)
+
+        def render(self, width, height, st, at):
+            return self.render_frame(width, height, st, at)
+
+    class ThldTextRectangle(ThldRectangle):
+        def __init__(self, padding, alpha, text, font=None, size=20, **kwargs):
+            self.padding = padding
             self.text = text
             self.font = font
             self.size = size
             self.text_displayable = Text(self.text, font=self.font, size=self.size, xalign=0.5, yalign=0.5)
-            
+            super(ThldTextRectangle, self).__init__(0, 0, alpha, **kwargs)
+
         def render(self, width, height, st, at):
             text_render = renpy.render(self.text_displayable, width, height, st, at)
             text_width, text_height = text_render.get_size()
@@ -394,48 +415,10 @@ init python:
             self.height = int(text_height + self.padding * 2)
             self.frame = Solid("#000000", xsize=self.width, ysize=self.height)
 
-            t = Transform(child=self.frame, alpha=self.alpha)
-            obj = renpy.render(t, self.width, self.height, st, at)
-            render = renpy.Render(self.width, self.height)
-            render.blit(obj, (0, 0))
+            render = self.render_frame(self.width, self.height, st, at)
             render.blit(text_render, (self.width / 2 - text_render.get_size()[0] / 2, 
                                     self.height / 2 - text_render.get_size()[1] / 2))
             return render
-
-    class ThldMainMenuParallax(renpy.Displayable):
-        def __init__(self, image_name, xstep, ystep):
-            super(ThldMainMenuParallax, self).__init__()
-            self.image_name = renpy.displayable(image_name)
-            self.xstep = xstep
-            self.ystep = ystep
-            self.x = None
-            self.y = None
-        
-        def render(self, width, height, st, at):
-            first_render = renpy.render(self.image_name, width, height, st, at)
-            render = renpy.Render(width, height)            
-            render.blit(first_render, (0, 0))
-        
-            if self.x is not None:
-                image_render = renpy.render(self.image_name, width, height, st, at)
-                render_width, render_height = (config.screen_width, config.screen_height)
-                xpos = (self.x - render_width / 2) * self.xstep / render_width
-                ypos = (self.y - render_height / 2) * self.ystep / render_height
-                render.blit(image_render, (xpos, ypos))
-        
-            return render
-        
-        def event(self, ev, x, y, st):
-            if ev.type != pygame.MOUSEMOTION:
-                return
-
-            if x < 0 or y < 0:
-                return
-        
-            if (x != self.x) or (y != self.y):
-                self.x = x
-                self.y = y
-                renpy.redraw(self, 0)
 
 init:
     $ thld_main_menu_font = "thld/images/gui/fonts/gotham_pro_light.ttf"
@@ -448,8 +431,10 @@ init:
     $ thld_lock_quit = False
     $ thld_lock_quick_menu = False
 
-    image thld_main_menu_particles = ThldDustParticles("thld/images/gui/misc/particle_dust.png", 150)
+    image thld_main_menu_particles = ThldDustParticles("thld/images/gui/misc/particle_dust.png", 300)
     image thld_blank_skip = renpy.display.behavior.ImageButton(Null(1920, 1080), Null(1920, 1080), clicked=[Jump('thld_after_intro')])
+
+    image thld_main_menu_options_frame = ThldBlackRectangle(width=1804, height=1028, alpha=0.6)
 
     transform thld_main_menu_particles_anim:
         ease 1 xoffset -10 rotate -0.3 alpha 0.7
@@ -466,11 +451,6 @@ init:
             fit_first=True)
         crop (.0, .0, 1.0, 1.0)
         crop_relative True
-
-    image thld_main_menu_bg:
-        contains:
-            "thld_main_menu_background"
-            xalign 0.5 yalign 0.5 zoom 1.15
 
     image thld_logowhite_hover:
         ThldGlitchEffect("thld_logowhite_idle")
@@ -559,6 +539,33 @@ init:
         ThldGlitchEffect("thld_exit_button_idle")
         pause 0.2
         ThldGlitchEffect("thld_exit_button_idle")
+        pause 0.2
+        repeat
+
+    image thld_return_button_idle = Text('Назад', font=thld_main_menu_font, size=60)
+
+    image thld_return_button_hover:
+        ThldGlitchEffect("thld_return_button_idle")
+        pause 0.2
+        ThldGlitchEffect("thld_return_button_idle")
+        pause 0.2
+        repeat
+
+    image thld_load_button_idle_ = Text('Загрузить игру', font=thld_main_menu_font, size=60)
+
+    image thld_load_button_hover_:
+        ThldGlitchEffect("thld_load_button_idle_")
+        pause 0.2
+        ThldGlitchEffect("thld_load_button_idle_")
+        pause 0.2
+        repeat
+
+    image thld_delete_button_idle = Text('Удалить', font=thld_main_menu_font, size=60)
+
+    image thld_delete_button_hover:
+        ThldGlitchEffect("thld_delete_button_idle")
+        pause 0.2
+        ThldGlitchEffect("thld_delete_button_idle")
         pause 0.2
         repeat
 

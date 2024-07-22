@@ -1,4 +1,5 @@
 screen thld_main_menu():
+    tag menu
     modal True
 
     key "game_menu":
@@ -7,112 +8,233 @@ screen thld_main_menu():
     key "K_F1":
         action NullAction()
 
-    add ThldMainMenuParallax("thld_main_menu_bg", 43, 37)
+    add "thld_main_menu_background"
 
     add "thld_main_menu_particles" at thld_main_menu_particles_anim
 
-    add "thld_main_menu_logo" xalign 0.5 yalign 0.1
+    if thld_main_menu_var:
+        add "thld_main_menu_logo" xalign 0.5 yalign 0.1
 
-    imagebutton:
-        auto "thld_start_button_%s"
-        xalign 0.5
-        yalign 0.35
-        action [Hide('thld_main_menu', Dissolve(2.0)), SetVariable('thld_lock_quit_game_main_menu_var', False), Start('thld_1')]
+        imagebutton:
+            auto "thld_start_button_%s"
+            xalign 0.5
+            yalign 0.35
+            action [Hide('thld_main_menu', Dissolve(2.0)), SetVariable('thld_lock_quit_game_main_menu_var', False), Start('thld_1')]
 
-    imagebutton:
-        auto "thld_load_button_%s"
-        xalign 0.5 
-        yalign 0.475
-        action NullAction()
+        imagebutton:
+            auto "thld_load_button_%s"
+            xalign 0.5 
+            yalign 0.475
+            action [SetVariable('thld_main_menu_var', False), ShowMenu('thld_load_main_menu')]
 
-    imagebutton:
-        auto 'thld_extra_button_%s'
-        xalign 0.5 
-        yalign 0.6
-        action NullAction()
+        imagebutton:
+            auto 'thld_extra_button_%s'
+            xalign 0.5 
+            yalign 0.6
+            action NullAction()
 
-    imagebutton:
-        auto 'thld_preferences_button_%s'
-        xalign 0.5
-        yalign 0.725
-        action NullAction()
+        imagebutton:
+            auto 'thld_preferences_button_%s'
+            xalign 0.5
+            yalign 0.725
+            action NullAction()
 
-    imagebutton:
-        auto "thld_logowhite_%s"
-        xpos 1520
-        ypos 800
-        action OpenURL("https://vk.com/public176281709")
+        imagebutton:
+            auto 'thld_exit_button_%s'
+            xalign 0.5 
+            yalign 0.85
+            action [SetVariable("thld_main_menu_var", False), ShowMenu("thld_quit_main_menu")]
 
-    imagebutton:
-        auto 'thld_exit_button_%s'
-        xalign 0.5 
-        yalign 0.85
-        action NullAction()
-        
-screen thld_load_main_menu:
+        imagebutton:
+            auto "thld_logowhite_%s"
+            xpos 1520
+            ypos 800
+            action OpenURL("https://vk.com/public176281709")
+
+screen thld_load_main_menu():
     modal True
     
     key "K_F1":
         action NullAction()
+    
+    if not thld_main_menu_var:
+        add "thld_main_menu_options_frame" xalign 0.5 yalign 0.5
+            
+        text "Загрузка":
+            font thld_main_menu_font
+            size 90
+            xalign 0.5
+            ypos 33
+            antialias True
+            kerning 2
 
-    imagebutton:
-        idle thld_gui_path + "main_menu/thld_main_menu_frame.png"
-        hover thld_gui_path + "main_menu/thld_main_menu_frame.png"
-        xpos 0
-        ypos 0
+        imagebutton:
+            auto 'thld_return_button_%s'
+            xalign 0.1
+            ypos 970
+            action [SetVariable("thld_main_menu_var", True), Hide("thld_load_main_menu"), ShowMenu("thld_main_menu")]
+
+        imagebutton:
+            auto 'thld_load_button_%s_'
+            xalign 0.5
+            ypos 970
+            action (DinFunctionCallback(thld_on_load_callback, selected_slot), FileLoad(selected_slot, confirm=False))
+                    
+        imagebutton:
+            auto 'thld_delete_button_%s'
+            xalign 0.9
+            ypos 970
+            action FileDelete(selected_slot, confirm=False)
+            
+        grid 4 3:
+            xpos 0.11
+            ypos 0.2
+            xmaximum 0.81
+            ymaximum 0.65
+            transpose False
+            xfill True
+            yfill True
+
+            for i in range(1, 13):
+                fixed:
+                    add FileScreenshot(i):
+                        xpos 10
+                        ypos 10
+
+                    button:
+                        action SetVariable("selected_slot", i)
+                        xfill False
+                        yfill False
+                        style "thld_save_load_button_main_menu"
+
+                        fixed:
+                            text ("%s." % i + FileTime(i, format=" %d.%m.%y, %H:%M", empty=" " + "Пусто") + "\n" + FileSaveName(i)):
+                                style "thld_text_save_load_main_menu"
+                                xpos 15
+                                ypos 15
+
+screen thld_preferences_main_menu():
+    modal True
+    
+    key "K_F1":
         action NullAction()
     
-    text "{font=[thld_link_font]}Загрузка{/font}":
-        size 70
-        xalign 0.5
-        ypos 33
-        antialias True
-        kerning 2
-
-    textbutton ["Назад"]:
-        style "thld_log_button" 
-        text_style "thld_settings_link_main_menu_preferences" 
-        xalign 0.1
-        ypos 970
-        action [SetVariable("thld_main_menu", True), Hide("thld_load_main_menu"), ShowMenu("thld_main_menu")]
-                
-    textbutton ["Загрузить игру"]:
-        style "thld_log_button" 
-        text_style "thld_settings_link_main_menu_preferences" 
-        xalign 0.5
-        ypos 970
-        action (ThldFunctionCallback(thld_on_load_callback, selected_slot), FileLoad(selected_slot, confirm = False))
-                
-    textbutton ["Удалить"]:
-        style "thld_log_button" 
-        text_style "thld_settings_link_main_menu_preferences" 
-        xalign 0.9
-        ypos 975
-        action FileDelete(selected_slot, confirm = False)
+    if not thld_main_menu_var:
+        add "thld_main_menu_options_frame" xalign 0.5 yalign 0.5
         
-    grid 4 3:
-        xpos 0.11
-        ypos 0.2
-        xmaximum 0.81
-        ymaximum 0.65
-        transpose False
-        xfill True
-        yfill True
-        for i in range(1, 13):
-            fixed:
-                add FileScreenshot(i):
-                    xpos 10
-                    ypos 10
-                button:
-                    action SetVariable("selected_slot", i)
-                    xfill False
-                    yfill False
-                    style "thld_save_load_button_main_menu"
-                    fixed:
-                        text ("%s." % i + FileTime(i, format = " %d.%m.%y, %H:%M", empty = " " + "Пусто") + "\n" + FileSaveName(i)):
-                            style "thld_text_save_load_main_menu"
-                            xpos 15
-                            ypos 15
+        text "Настройки":
+            font thld_main_menu_font
+            size 70
+            xalign 0.5
+            ypos 33
+            antialias True
+            kerning 2
+
+        text "Режим экрана":
+            font thld_header_font
+            size 60
+            xalign 0.5
+            ypos 200
+            
+        textbutton "Во весь экран":
+            style "thld_button_none"
+            text_style "thld_settings_header_main_menu_preferences"
+            xalign 0.15
+            ypos 280
+            action Preference("display", "fullscreen")
+            
+        textbutton "В окне":
+            style "thld_button_none"
+            text_style "thld_settings_header_main_menu_preferences"
+            xalign 0.85
+            ypos 280
+
+            if not _preferences.fullscreen:
+                text_style "thld_settings_header_main_menu_preferences_inverse"
+
+            else:
+                text_style "thld_settings_header_main_menu_preferences"
+
+            action Preference("display", "window")
+
+        text "Размер шрифта":
+            font thld_header_font
+            size 60
+            xalign 0.5
+            ypos 360
+                
+        textbutton "Обычный":
+            style "thld_button_none"
+            text_style "thld_settings_header_main_menu_preferences"
+            xalign 0.15
+            ypos 440
+            action SetField(persistent, "font_size", "small")
+                
+        textbutton "Крупный":
+            style "thld_button_none"
+            text_style "thld_settings_header_main_menu_preferences"
+            xalign 0.85
+            ypos 440
+            action SetField(persistent, "font_size", "large")
+                
+        text "Пропускать":
+            font thld_header_font
+            size 60
+            xalign 0.5
+            ypos 520
+
+        if not _preferences.skip_unseen:
+            textbutton "Виденное ранее":
+                style "thld_button_none"
+                text_style "thld_settings_header_main_menu_preferences"
+                xalign 0.15
+                ypos 600
+                action Preference("skip", "seen")
+
+            textbutton "Всё":
+                style "thld_button_none"
+                text_style "thld_settings_header_main_menu_preferences"
+                xalign 0.85
+                ypos 600
+                action Preference("skip", "all")
+                            
+        if _preferences.skip_unseen:
+            textbutton "Виденное ранее":
+                style "thld_button_none"
+                text_style "thld_settings_header_main_menu_preferences"
+                xalign 0.15
+                ypos 600
+                action Preference("skip", "seen")
+
+            textbutton "Всё":
+                style "thld_button_none"
+                text_style "thld_settings_header_main_menu_preferences"
+                xalign 0.85
+                ypos 600
+                action Preference("skip", "all")    
+            
+        text ["Громкость музыки"]:
+            font thld_header_font
+            size 60
+            xpos 430
+            ypos 820
+
+        bar:
+            value Preference("music volume")
+            right_bar "thld_main_menu_bar_null"
+            left_bar "thld_main_menu_bar_full"
+            thumb "thld_main_menu_thumb"
+            xpos 975
+            ypos 813
+            xmaximum 400
+            ymaximum 85
+
+        textbutton "Назад":
+            style "thld_log_button" 
+            text_style "thld_settings_link_main_menu_preferences" 
+            xalign 0.1
+            ypos 970
+            action [SetVariable("thld_main_menu_var", True), Hide("thld_preferences_main_menu"), ShowMenu("thld_main_menu")]
         
 screen thld_preferences():
     tag menu
