@@ -35,6 +35,10 @@ init python:
     thld_names["thld_myself"] = "Я"
     store.thld_names_list.append("thld_myself")
 
+    thld_colors["thld_pacifist"] = {"speaker_color": (6, 91, 13, 255)}
+    thld_names["thld_pacifist"] = "Пацифист"
+    store.thld_names_list.append("thld_pacifist")
+
     thld_colors["thld_pi_i_p"] = {"speaker_color": (75, 2, 135, 255)}
     thld_names["thld_pi_i_p"] = "Пионер"
     store.thld_names_list.append("thld_pi_i_p")
@@ -66,6 +70,10 @@ init python:
     thld_colors["thld_pi_ann"] = {"speaker_color": (175, 145, 81, 255)}
     thld_names["thld_pi_ann"] = "Распорядитель"
     store.thld_names_list.append("thld_pi_ann")
+
+    thld_colors["thld_funny"] = {"speaker_color": (1, 1, 1, 255)} # поменять цвет
+    thld_names["thld_funny"] = "Смешной"
+    store.thld_names_list.append("thld_funny")
 
     thld_colors["thld_pi_mad"] = {"speaker_color": (159, 147, 147, 255)}
     thld_names["thld_pi_mad"] = "Помешанный"

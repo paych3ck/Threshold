@@ -19,36 +19,48 @@ screen thld_main_menu():
             auto "thld_start_button_%s"
             xalign 0.5
             yalign 0.35
-            action [Hide('thld_main_menu', Dissolve(2.0)), SetVariable('thld_lock_quit_game_main_menu_var', False), Start('thld_1')]
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
+            action [Stop('sound_loop'), Hide('thld_main_menu', Dissolve(2.0)), SetVariable('thld_lock_quit_game_main_menu_var', False), Start('thld_1')]
 
         imagebutton:
             auto "thld_load_button_%s"
             xalign 0.5 
             yalign 0.475
-            action [SetVariable('thld_main_menu_var', False), ShowMenu('thld_load_main_menu')]
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
+            action [Stop('sound_loop'), SetVariable('thld_main_menu_var', False), ShowMenu('thld_load_main_menu')]
 
         imagebutton:
             auto 'thld_extra_button_%s'
             xalign 0.5 
             yalign 0.6
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
             action NullAction()
 
         imagebutton:
             auto 'thld_preferences_button_%s'
             xalign 0.5
             yalign 0.725
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
             action NullAction()
 
         imagebutton:
             auto 'thld_exit_button_%s'
             xalign 0.5 
             yalign 0.85
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
             action [SetVariable("thld_main_menu_var", False), ShowMenu("thld_quit_main_menu")]
 
         imagebutton:
             auto "thld_logowhite_%s"
             xpos 1520
             ypos 800
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
             action OpenURL("https://vk.com/public176281709")
 
 screen thld_load_main_menu():
@@ -72,19 +84,25 @@ screen thld_load_main_menu():
             auto 'thld_return_button_%s'
             xalign 0.1
             ypos 970
-            action [SetVariable("thld_main_menu_var", True), Hide("thld_load_main_menu"), ShowMenu("thld_main_menu")]
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
+            action [Stop('sound_loop'), SetVariable("thld_main_menu_var", True), Hide("thld_load_main_menu"), ShowMenu("thld_main_menu")]
 
         imagebutton:
             auto 'thld_load_button_%s_'
             xalign 0.5
             ypos 970
-            action (DinFunctionCallback(thld_on_load_callback, selected_slot), FileLoad(selected_slot, confirm=False))
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
+            action [Stop('sound_loop'), ThldFunctionCallback(thld_on_load_callback, selected_slot), FileLoad(selected_slot, confirm=False)]
                     
         imagebutton:
             auto 'thld_delete_button_%s'
             xalign 0.9
             ypos 970
-            action FileDelete(selected_slot, confirm=False)
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
+            action [Stop('sound_loop'), FileDelete(selected_slot, confirm=False)]
             
         grid 4 3:
             xpos 0.11
