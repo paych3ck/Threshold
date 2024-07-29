@@ -31,11 +31,11 @@ init python:
 
     store.thld_names_list.append("thld_th")
 
-    thld_colors["thld_myself"] = {"speaker_color": (6, 91, 13, 255)}
+    thld_colors["thld_myself"] = {"speaker_color": '#088010'}
     thld_names["thld_myself"] = "Я"
     store.thld_names_list.append("thld_myself")
 
-    thld_colors["thld_pacifist"] = {"speaker_color": (6, 91, 13, 255)}
+    thld_colors["thld_pacifist"] = {"speaker_color": '#088010'}
     thld_names["thld_pacifist"] = "Пацифист"
     store.thld_names_list.append("thld_pacifist")
 
