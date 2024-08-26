@@ -37,7 +37,7 @@ screen thld_main_menu():
             yalign 0.6
             hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
             unhovered Stop('sound_loop')
-            action NullAction()
+            action [Stop('sound_loop'), SetVariable('thld_main_menu_var', False), ShowMenu('thld_extra')]
 
         imagebutton:
             auto 'thld_preferences_button_%s'
@@ -45,7 +45,7 @@ screen thld_main_menu():
             yalign 0.725
             hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
             unhovered Stop('sound_loop')
-            action NullAction()
+            action [Stop('sound_loop'), SetVariable('thld_main_menu_var', False), ShowMenu('thld_preferences_main_menu')]
 
         imagebutton:
             auto 'thld_exit_button_%s'
@@ -53,7 +53,7 @@ screen thld_main_menu():
             yalign 0.85
             hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
             unhovered Stop('sound_loop')
-            action [SetVariable("thld_main_menu_var", False), ShowMenu("thld_quit_main_menu")]
+            action [Stop('sound_loop'), SetVariable("thld_main_menu_var", False), ShowMenu("thld_quit_main_menu")]
 
         imagebutton:
             auto "thld_logowhite_%s"
@@ -131,6 +131,47 @@ screen thld_load_main_menu():
                                 xpos 15
                                 ypos 15
 
+screen thld_extra():
+    modal True
+
+    key "K_F1":
+        action NullAction()
+
+    if not thld_main_menu_var:
+        add "thld_main_menu_options_frame" xalign 0.5 yalign 0.5
+
+        text "Дополнительно":
+            font thld_main_menu_font
+            size 90
+            xalign 0.5
+            ypos 33
+            antialias True
+            kerning 2
+
+        imagebutton:
+            auto 'thld_music_button_%s'
+            xalign 0.5
+            yalign 0.3
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
+            action [Stop('sound_loop'), Hide('thld_extra'), ShowMenu('thld_music_room')]
+
+        imagebutton:
+            auto 'thld_gallery_button_%s'
+            xalign 0.5
+            yalign 0.5
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
+            action [Stop('sound_loop'), Hide('thld_extra'), ShowMenu('thld_backround_gallery')]
+
+        imagebutton:
+            auto 'thld_return_button_%s'
+            xalign 0.1
+            ypos 970
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
+            action [Stop('sound_loop'), SetVariable("thld_main_menu_var", True), Hide("thld_extra"), ShowMenu("thld_main_menu")]
+
 screen thld_preferences_main_menu():
     modal True
     
@@ -142,14 +183,14 @@ screen thld_preferences_main_menu():
         
         text "Настройки":
             font thld_main_menu_font
-            size 70
+            size 90
             xalign 0.5
             ypos 33
             antialias True
             kerning 2
 
         text "Режим экрана":
-            font thld_header_font
+            font thld_main_menu_font
             size 60
             xalign 0.5
             ypos 200
@@ -176,7 +217,7 @@ screen thld_preferences_main_menu():
             action Preference("display", "window")
 
         text "Размер шрифта":
-            font thld_header_font
+            font thld_main_menu_font
             size 60
             xalign 0.5
             ypos 360
@@ -196,7 +237,7 @@ screen thld_preferences_main_menu():
             action SetField(persistent, "font_size", "large")
                 
         text "Пропускать":
-            font thld_header_font
+            font thld_main_menu_font
             size 60
             xalign 0.5
             ypos 520
@@ -232,27 +273,62 @@ screen thld_preferences_main_menu():
                 action Preference("skip", "all")    
             
         text ["Громкость музыки"]:
-            font thld_header_font
+            font thld_main_menu_font
             size 60
             xpos 430
             ypos 820
 
         bar:
             value Preference("music volume")
-            right_bar "thld_main_menu_bar_null"
-            left_bar "thld_main_menu_bar_full"
+            right_bar "thld_main_menu_bar_full"
+            left_bar 'thld_main_menu_bar_null_glitched'
             thumb "thld_main_menu_thumb"
-            xpos 975
+            xpos 960
             ypos 813
             xmaximum 400
             ymaximum 85
 
-        textbutton "Назад":
-            style "thld_log_button" 
-            text_style "thld_settings_link_main_menu_preferences" 
+        imagebutton:
+            auto 'thld_return_button_%s'
             xalign 0.1
             ypos 970
-            action [SetVariable("thld_main_menu_var", True), Hide("thld_preferences_main_menu"), ShowMenu("thld_main_menu")]
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
+            action [Stop('sound_loop'), SetVariable("thld_main_menu_var", True), Hide("thld_preferences_main_menu"), ShowMenu("thld_main_menu")]
+
+screen thld_quit_main_menu():
+    modal True
+
+    key "K_F1":
+        action NullAction()
+
+    if not thld_main_menu_var:
+        add "thld_main_menu_options_frame" xalign 0.5 yalign 0.5
+
+        text 'Вы действительно хотите выйти?':
+            font thld_main_menu_font
+            size 80
+            text_align 0.5
+            xalign 0.5
+            yalign 0.33
+            antialias True
+            kerning 2
+
+        imagebutton:
+            auto 'thld_yes_button_%s'
+            xpos 493
+            ypos 600
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
+            action [Stop('sound_loop'), Hide('thld_quit_main_menu'), Function(thld_screens_diact), ShowMenu('main_menu')]
+
+        imagebutton:
+            auto 'thld_no_button_%s'
+            xpos 1230
+            ypos 600
+            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
+            unhovered Stop('sound_loop')
+            action [Stop('sound_loop'), SetVariable("thld_main_menu_var", True), Hide("thld_quit_main_menu"), ShowMenu("thld_main_menu")]
         
 screen thld_preferences():
     tag menu
@@ -543,7 +619,7 @@ screen thld_save():
                         yfill False
                         style "thld_save_load_button_" + persistent.timeofday
                         has fixed
-                        text ("%s." % i + FileTime(i, format=" %d.%m.%y, %H:%M", empty=" " + translation_new["Empty_slot"]) + "\n" + FileSaveName(i)) style "file_picker_text" xpos 15 ypos 15
+                        text ("%s." % i + FileTime(i, format=" %d.%m.%y, %H:%M", empty=" " + 'Пусто') + "\n" + FileSaveName(i)) style "file_picker_text" xpos 15 ypos 15
     
 screen thld_load():
     tag menu
@@ -592,7 +668,7 @@ screen thld_load():
                         yfill False
                         style "thld_save_load_button_" + persistent.timeofday
                         has fixed
-                        text ("%s." % i + FileTime(i, format = " %d.%m.%y, %H:%M", empty = " " + translation_new["Empty_slot"]) + "\n" +FileSaveName(i)) style "file_picker_text" xpos 15 ypos 15                  
+                        text ("%s." % i + FileTime(i, format=" %d.%m.%y, %H:%M", empty=" " + 'Пусто') + "\n" +FileSaveName(i)) style "file_picker_text" xpos 15 ypos 15                  
                                 
 screen thld_say(what, who):    
     window background None id "window":
@@ -834,15 +910,15 @@ screen thld_quit():
             kerning 2
             
         textbutton ["Да"]:
-            style "thld_settings_header_main_menu_quit"
-            text_style "thld_settings_header_main_menu_quit"
+            style "thld_settings_header_quit"
+            text_style "thld_settings_header_quit"
             xpos 493
             ypos 600
             action [(Function(thld_screens_diact)), ShowMenu("main_menu")]
             
         textbutton ["Нет"]:
-            style "thld_settings_header_main_menu_quit"
-            text_style "thld_settings_header_main_menu_quit"
+            style "thld_settings_header_quit"
+            text_style "thld_settings_header_quit"
             xpos 1230
             ypos 600
             action [Hide("thld_quit"), Return()]
@@ -1019,21 +1095,21 @@ screen thld_help():
             
     textbutton ["Группа VK"]:
         style "thld_log_button" 
-        text_style "thld_settings_header_main_menu_quit"
+        text_style "thld_settings_header_quit"
         xalign 0.5
         ypos 350
         action OpenURL("https://vk.com/public176281709")
 
     textbutton ["Под холодным небом"]:
         style "thld_log_button" 
-        text_style "thld_settings_header_main_menu_quit"
+        text_style "thld_settings_header_quit"
         xalign 0.5
         ypos 500
         action OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=2262867309")
 
     textbutton ["Сон"]:
         style "thld_log_button" 
-        text_style "thld_settings_header_main_menu_quit"
+        text_style "thld_settings_header_quit"
         xalign 0.5
         ypos 650
         action OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=2663197411")

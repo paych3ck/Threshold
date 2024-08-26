@@ -2,7 +2,7 @@ init python:
     from os import path
     from random import randint, uniform
     from math import sqrt, pow
-    from renpy.display.transform import polar_to_cartesian
+    #from renpy.display.transform import polar_to_cartesian
 
     for file_name in renpy.list_files():
         if "thld" in file_name:
@@ -360,7 +360,7 @@ init python:
                 band = Transform(child, crop=(0, fheight, cwidth, theight))
 
                 if chroma:
-                    band = thld_chromatic_offset(band, chzoom = 1.0 + .5 * offt / cwidth)
+                    band = thld_chromatic_offset(band, chzoom=1.0 + .5 * offt / cwidth)
 
                 band = Transform(band, pos=(offt, absolute(fheight)), subpixel=True)
                 lizt.append(band)
@@ -456,8 +456,9 @@ init:
             Transform(child, xalign=.0, xzoom=chzoom, gl_color_mask=(False, False, True, True)),
             Transform(child, xalign=.5, xzoom=chzoom, gl_color_mask=(False, True, False, True)),
             Transform(child, xalign=1.0, xzoom=chzoom, gl_color_mask=(True, False, False, True)),
-            fit_first=True)
-        crop (.0, .0, 1.0, 1.0)
+            fit_first=True
+            )
+        crop(.0, .0, 1.0, 1.0)
         crop_relative True
 
     image thld_logowhite_hover:
@@ -550,7 +551,7 @@ init:
         pause 0.2
         repeat
 
-    image thld_return_button_idle = Text('Назад', font=thld_main_menu_font, size=60)
+    image thld_return_button_idle = Text('Назад', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
 
     image thld_return_button_hover:
         ThldGlitchEffect("thld_return_button_idle")
@@ -559,7 +560,7 @@ init:
         pause 0.2
         repeat
 
-    image thld_load_button_idle_ = Text('Загрузить игру', font=thld_main_menu_font, size=60)
+    image thld_load_button_idle_ = Text('Загрузить игру', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
 
     image thld_load_button_hover_:
         ThldGlitchEffect("thld_load_button_idle_")
@@ -568,7 +569,7 @@ init:
         pause 0.2
         repeat
 
-    image thld_delete_button_idle = Text('Удалить', font=thld_main_menu_font, size=60)
+    image thld_delete_button_idle = Text('Удалить', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
 
     image thld_delete_button_hover:
         ThldGlitchEffect("thld_delete_button_idle")
@@ -577,12 +578,48 @@ init:
         pause 0.2
         repeat
 
-    transform thld_buttons_atl():
-        on idle:
-            easein 0.5 zoom 1.0
+    image thld_yes_button_idle = Text('Да', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
 
-        on hover:
-            easein 0.5 zoom 1.05
+    image thld_yes_button_hover:
+        ThldGlitchEffect('thld_yes_button_idle')
+        pause 0.2
+        ThldGlitchEffect('thld_yes_button_idle')
+        pause 0.2
+        repeat
+
+    image thld_no_button_idle = Text('Нет', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
+
+    image thld_no_button_hover:
+        ThldGlitchEffect('thld_no_button_idle')
+        pause 0.2
+        ThldGlitchEffect('thld_no_button_idle')
+        pause 0.2
+        repeat
+
+    image thld_music_button_idle = Text('Музыка', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
+
+    image thld_music_button_hover:
+        ThldGlitchEffect('thld_music_button_idle')
+        pause 0.2
+        ThldGlitchEffect('thld_music_button_idle')
+        pause 0.2
+        repeat
+
+    image thld_gallery_button_idle = Text('Галерея', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
+
+    image thld_gallery_button_hover:
+        ThldGlitchEffect('thld_gallery_button_idle')
+        pause 0.2
+        ThldGlitchEffect('thld_gallery_button_idle')
+        pause 0.2
+        repeat
+
+    image thld_main_menu_bar_null_glitched:
+        ThldGlitchEffect('thld_main_menu_bar_null')
+        pause 0.2
+        ThldGlitchEffect('thld_main_menu_bar_null')
+        pause 0.2
+        repeat
 
     transform thld_bus_moving():
         subpixel True

@@ -4,6 +4,7 @@ init python:
     thld_link_font = thld_gui_path + "fonts/gothic.ttf"
     thld_header_font = thld_gui_path + "fonts/corbel.ttf"
     thld_main_font = "fonts/calibri.ttf"
+    thld_main_menu_font = thld_gui_path + "fonts/gotham_pro_light.ttf"
 
     style.thld_button_none = Style(style.button)
     style.thld_button_none.background = None
@@ -112,53 +113,53 @@ init python:
     style.thld_settings_link_main_menu_preferences.insensitive_color = "#d1d1d1"
 
     style.thld_settings_header_main_menu_preferences = Style(style.thld_base_font)
-    style.thld_settings_header_main_menu_preferences.font = thld_header_font
+    style.thld_settings_header_main_menu_preferences.font = thld_main_menu_font
     style.thld_settings_header_main_menu_preferences.size = 60
     style.thld_settings_header_main_menu_preferences.color = "#d1d1d1"
     style.thld_settings_header_main_menu_preferences.hover_color = "#ffffff"
     style.thld_settings_header_main_menu_preferences.selected_color = "#ffffff"
 
     style.thld_settings_header_main_menu_preferences_locked = Style(style.thld_base_font)
-    style.thld_settings_header_main_menu_preferences_locked.font = thld_header_font
+    style.thld_settings_header_main_menu_preferences_locked.font = thld_main_menu_font
     style.thld_settings_header_main_menu_preferences_locked.size = 60
     style.thld_settings_header_main_menu_preferences_locked.color = "#C0C0C0"
     style.thld_settings_header_main_menu_preferences_locked.hover_color = "#C0C0C0"
     style.thld_settings_header_main_menu_preferences_locked.selected_color = "#C0C0C0"
 
-    style.thld_settings_header_main_menu_quit = Style(style.thld_base_font)
-    style.thld_settings_header_main_menu_quit.font = thld_header_font
-    style.thld_settings_header_main_menu_quit.size = 60
-    style.thld_settings_header_main_menu_quit.color = "#d1d1d1"
-    style.thld_settings_header_main_menu_quit.hover_color = "#ffffff"
+    style.thld_settings_header_quit = Style(style.thld_base_font)
+    style.thld_settings_header_quit.font = thld_header_font
+    style.thld_settings_header_quit.size = 60
+    style.thld_settings_header_quit.color = "#d1d1d1"
+    style.thld_settings_header_quit.hover_color = "#ffffff"
 
     style.thld_settings_header_main_menu_preferences_inverse = Style(style.thld_base_font)
-    style.thld_settings_header_main_menu_preferences_inverse.font = thld_header_font
+    style.thld_settings_header_main_menu_preferences_inverse.font = thld_main_menu_font
     style.thld_settings_header_main_menu_preferences_inverse.size = 60
     style.thld_settings_header_main_menu_preferences_inverse.color = "#ffffff"
     style.thld_settings_header_main_menu_preferences_inverse.hover_color = "#ffffff"
     style.thld_settings_header_main_menu_preferences_inverse.selected_color = "#ffffff"
 
-    style.thld_main_menu = Style(style.thld_base_font)
-    style.thld_main_menu.font = "thld/images/gui/fonts/gotham_pro_light.ttf"
-    style.thld_main_menu.size = 95
-    style.thld_main_menu.kerning = 3
-    style.thld_main_menu.color = "#ffffff"
-    style.thld_main_menu.hover_color = "#ffffff"
-    style.thld_main_menu.selected_color = "#ffffff"
-    style.thld_main_menu.selected_idle_color = "#ffffff"
-    style.thld_main_menu.selected_hover_color = "#ffffff"
-    style.thld_main_menu.insensitive_color = "#ffffff"
+    # style.thld_main_menu = Style(style.thld_base_font)
+    # style.thld_main_menu.font = thld_main_menu_font
+    # style.thld_main_menu.size = 95
+    # style.thld_main_menu.kerning = 3
+    # style.thld_main_menu.color = "#ffffff"
+    # style.thld_main_menu.hover_color = "#ffffff"
+    # style.thld_main_menu.selected_color = "#ffffff"
+    # style.thld_main_menu.selected_idle_color = "#ffffff"
+    # style.thld_main_menu.selected_hover_color = "#ffffff"
+    # style.thld_main_menu.insensitive_color = "#ffffff"
 
-    style.thld_main_menu_locked = Style(style.thld_base_font)
-    style.thld_main_menu_locked.font = thld_header_font
-    style.thld_main_menu_locked.size = 60
-    style.thld_main_menu_locked.kerning = 3
-    style.thld_main_menu_locked.color = "#C0C0C0"
-    style.thld_main_menu_locked.hover_color = "#C0C0C0"
-    style.thld_main_menu_locked.selected_color = "#C0C0C0"
-    style.thld_main_menu_locked.selected_idle_color = "#C0C0C0"
-    style.thld_main_menu_locked.selected_hover_color = "#C0C0C0"
-    style.thld_main_menu_locked.insensitive_color = "#C0C0C0"
+    # style.thld_main_menu_locked = Style(style.thld_base_font)
+    # style.thld_main_menu_locked.font = thld_header_font
+    # style.thld_main_menu_locked.size = 60
+    # style.thld_main_menu_locked.kerning = 3
+    # style.thld_main_menu_locked.color = "#C0C0C0"
+    # style.thld_main_menu_locked.hover_color = "#C0C0C0"
+    # style.thld_main_menu_locked.selected_color = "#C0C0C0"
+    # style.thld_main_menu_locked.selected_idle_color = "#C0C0C0"
+    # style.thld_main_menu_locked.selected_hover_color = "#C0C0C0"
+    # style.thld_main_menu_locked.insensitive_color = "#C0C0C0"
 
     style.thld_settings_header_day = Style(style.thld_base_font)
     style.thld_settings_header_day.font = thld_header_font
