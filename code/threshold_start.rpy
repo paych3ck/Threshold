@@ -8,7 +8,7 @@ init python:
         pass  
 
 label thld_start:
-    $ thld_onload('lock')
+    $ thld_onload("lock")
     $ thld_screens_save_act()
     $ thld_set_main_menu_cursor()
     scene bg black with Dissolve(2)
@@ -22,10 +22,10 @@ label thld_start:
     $ renpy.pause(8, hard=True)
     scene bg black with Dissolve(2)
     $ renpy.pause(0.5, hard=True)
-    $ thld_set_time('prologue')
+    $ thld_set_time("prologue")
     $ thld_set_mode_adv()
 
     label thld_after_intro:
-        $ thld_onload('unlock')
+        $ thld_onload("unlock")
         stop sound
         $ renpy.transition(Dissolve(2))

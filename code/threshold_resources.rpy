@@ -2,7 +2,7 @@ init python:
     from os import path
     from random import randint, uniform
     from math import sqrt, pow
-    #from renpy.display.transform import polar_to_cartesian
+    from renpy.uguu import GL_REPEAT
 
     for file_name in renpy.list_files():
         if "thld" in file_name:
@@ -31,11 +31,11 @@ init python:
 
     store.thld_names_list.append("thld_th")
 
-    thld_colors["thld_myself"] = {"speaker_color": '#088010'}
+    thld_colors["thld_myself"] = {"speaker_color": "#088010"}
     thld_names["thld_myself"] = "Я"
     store.thld_names_list.append("thld_myself")
 
-    thld_colors["thld_pacifist"] = {"speaker_color": '#088010'}
+    thld_colors["thld_pacifist"] = {"speaker_color": "#088010"}
     thld_names["thld_pacifist"] = "Пацифист"
     store.thld_names_list.append("thld_pacifist")
 
@@ -55,11 +55,11 @@ init python:
     thld_names["thld_teapot"] = "Чайник"
     store.thld_names_list.append("thld_teapot")
 
-    thld_colors["thld_preacher"] = {"speaker_color": '#FFFFFF'}
+    thld_colors["thld_preacher"] = {"speaker_color": "#FFFFFF"}
     thld_names["thld_preacher"] = "Проповедник"
     store.thld_names_list.append("thld_preacher")
 
-    thld_colors["thld_pi_preacher"] = {"speaker_color": '#FFFFFF'}
+    thld_colors["thld_pi_preacher"] = {"speaker_color": "#FFFFFF"}
     thld_names["thld_pi_preacher"] = "Пионер в халате"
     store.thld_names_list.append("thld_pi_preacher")
 
@@ -179,7 +179,7 @@ init python:
             config.allow_skipping = True
 
     def thld_set_main_menu_cursor():
-        config.mouse_displayable = MouseDisplayable(thld_gui_path + 'misc/thld_cursor.png', 0, 0)
+        config.mouse_displayable = MouseDisplayable(thld_gui_path + "misc/thld_cursor.png", 0, 0)
 
     thld_set_main_menu_cursor_curried = renpy.curry(thld_set_main_menu_cursor)
 
@@ -341,7 +341,7 @@ init python:
                                 st, at)
 
         @staticmethod
-        def glitch(child, cwidth, cheight, randomobj, chroma=True, minbandheight=1, offset=30, crop=False):
+        def glitch(child, cwidth, cheight, randomobj, chroma=True, minbandheight=1, offset=10, crop=False):
             chroma &= renpy.display.render.models
             if not (cwidth and cheight):
                 return child
@@ -428,6 +428,73 @@ init python:
                                     self.height / 2 - text_render.get_size()[1] / 2))
             return render
 
+    renpy.register_shader(
+        "thld_glitch_shader",
+        
+        variables="""
+            uniform float u_time;
+            uniform sampler2D tex0;
+            uniform vec2 iResolution;
+            
+            uniform float u_amplitude;
+            uniform float u_amount;
+            uniform float u_speed;
+            uniform float u_intensity;
+            uniform float u_ratio;
+            uniform vec2 u_tile;
+            uniform float u_jitter;
+            
+            attribute vec2 a_tex_coord;
+            varying vec2 v_tex_coord;
+        """,
+        
+        vertex_300="""
+            v_tex_coord = a_tex_coord;
+        """,
+        
+        fragment_functions="""
+            float saturate(float x) {
+                return min(1.0, max(0.0, x));
+            }
+
+            float Glitch_JatterTotal(vec2 uv, float time, float speed, float amplitude, float amount) {
+                vec4 time4 = vec4(6.0, 16.0, 19.0, 27.0) * time * speed;
+                vec4 splitAmount4 = (1.0 + sin(time4)) * 0.5;
+                float splitAmount = splitAmount4.x * splitAmount4.y * splitAmount4.z * splitAmount4.w;
+                splitAmount = pow(splitAmount, amplitude);
+                splitAmount *= (0.05 * amount);
+                return splitAmount;
+            }
+
+            float Glitch_JatterBlock(vec2 uv, float time, float speed, float intensity, float ratio, float jitter, vec2 tile) {
+                float uTime = floor(time * speed);
+                const vec3 Magic = vec3(393555.9000370003845, -55865.4634555294951, 782941.5577042901757);
+                vec2 xy = floor(uv * tile);
+                vec3 seed = mod(vec3(xy, uTime) * 11035.15245 + Magic, vec3(96.9875));
+                vec3 seed_2 = mod(vec3(floor(vec2(uv.x + (fract(dot(seed.zyx + seed.zxx + seed.yzy, fract(seed * seed))) - 0.5) * jitter, uv.y + (fract(dot(seed + seed.yyx + seed.zxz, fract(seed.zxy * seed.zxy))) - 0.5) * jitter) * tile), uTime) * 11035.15245 + Magic, vec3(96.9875));
+                float h = saturate(fract(dot(seed + seed.yzx + seed.zxy, fract(seed.zyx * seed.zyx))) - 1.0 + ratio) / ratio;
+                return pow(h, 8.0) * pow(h, 3.0) * intensity;
+            }
+        """,
+
+        fragment_300="""
+            vec2 uv = v_tex_coord;
+            float jatterTotalAmount = Glitch_JatterTotal(uv, u_time, u_speed, u_amplitude, u_amount);
+            float jatterBlockAmount = Glitch_JatterBlock(uv, u_time, u_speed, u_intensity, u_ratio, u_jitter, u_tile);
+
+            vec2 uvR = uv + vec2(jatterTotalAmount - jatterBlockAmount, 0.0);
+            vec2 uvG = uv;
+            vec2 uvB = uv + vec2(-jatterTotalAmount + jatterBlockAmount, 0.0);
+
+            vec4 colorR = texture2D(tex0, uvR);
+            vec4 colorG = texture2D(tex0, uvG);
+            vec4 colorB = texture2D(tex0, uvB);
+            float alpha = max(max(colorR.a, colorG.a), colorB.a);
+
+            gl_FragColor = vec4(colorR.r, colorG.g, colorB.b, alpha);
+        """
+    )
+
 init:
     $ thld_main_menu_font = "thld/images/gui/fonts/gotham_pro_light.ttf"
     $ thld_main_menu_buttons_padding = 20
@@ -440,7 +507,7 @@ init:
     $ thld_lock_quick_menu = False
 
     image thld_main_menu_particles = ThldDustParticles("thld/images/gui/misc/particle_dust.png", 300)
-    image thld_blank_skip = renpy.display.behavior.ImageButton(Null(1920, 1080), Null(1920, 1080), clicked=[Jump('thld_after_intro')])
+    image thld_blank_skip = renpy.display.behavior.ImageButton(Null(1920, 1080), Null(1920, 1080), clicked=[Jump("thld_after_intro")])
 
     image thld_main_menu_options_frame = ThldBlackRectangle(width=1804, height=1028, alpha=0.6)
 
@@ -460,6 +527,38 @@ init:
             )
         crop(.0, .0, 1.0, 1.0)
         crop_relative True
+
+    transform thld_glitch_transform(amplitude=2.0, amount=2.0, speed=10.0, intensity=0.1, ratio=1.0, tile=(2.0, 3.0), jitter=0.6):
+        mesh True
+        shader "thld_glitch_shader"
+
+        u_amplitude amplitude
+        u_amount amount
+        u_speed speed
+        u_intensity intensity
+        u_ratio ratio
+        u_tile tile
+        u_jitter jitter
+
+        gl_texture_wrap(GL_REPEAT, GL_REPEAT)
+
+    transform thld_boat_moving():
+        subpixel True
+        truecenter
+        zoom 1.03
+
+        parallel:
+            linear 0.5 xoffset -2
+            linear 0.5 xoffset 3
+            linear 0.5 xoffset -1
+            linear 0.5 xoffset 2
+            repeat
+
+        parallel:
+            linear 0.8 yoffset -6
+            linear 0.8 yoffset 12
+            linear 0.8 yoffset -6
+            repeat
 
     image thld_logowhite_hover:
         ThldGlitchEffect("thld_logowhite_idle")
@@ -551,7 +650,7 @@ init:
         pause 0.2
         repeat
 
-    image thld_return_button_idle = Text('Назад', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
+    image thld_return_button_idle = Text("Назад", font=thld_main_menu_font, size=thld_main_menu_buttons_size)
 
     image thld_return_button_hover:
         ThldGlitchEffect("thld_return_button_idle")
@@ -560,7 +659,7 @@ init:
         pause 0.2
         repeat
 
-    image thld_load_button_idle_ = Text('Загрузить игру', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
+    image thld_load_button_idle_ = Text("Загрузить игру", font=thld_main_menu_font, size=thld_main_menu_buttons_size)
 
     image thld_load_button_hover_:
         ThldGlitchEffect("thld_load_button_idle_")
@@ -569,7 +668,7 @@ init:
         pause 0.2
         repeat
 
-    image thld_delete_button_idle = Text('Удалить', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
+    image thld_delete_button_idle = Text("Удалить", font=thld_main_menu_font, size=thld_main_menu_buttons_size)
 
     image thld_delete_button_hover:
         ThldGlitchEffect("thld_delete_button_idle")
@@ -578,63 +677,45 @@ init:
         pause 0.2
         repeat
 
-    image thld_yes_button_idle = Text('Да', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
+    image thld_yes_button_idle = Text("Да", font=thld_main_menu_font, size=thld_main_menu_buttons_size)
 
     image thld_yes_button_hover:
-        ThldGlitchEffect('thld_yes_button_idle')
+        ThldGlitchEffect("thld_yes_button_idle")
         pause 0.2
-        ThldGlitchEffect('thld_yes_button_idle')
+        ThldGlitchEffect("thld_yes_button_idle")
         pause 0.2
         repeat
 
-    image thld_no_button_idle = Text('Нет', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
+    image thld_no_button_idle = Text("Нет", font=thld_main_menu_font, size=thld_main_menu_buttons_size)
 
     image thld_no_button_hover:
-        ThldGlitchEffect('thld_no_button_idle')
+        ThldGlitchEffect("thld_no_button_idle")
         pause 0.2
-        ThldGlitchEffect('thld_no_button_idle')
+        ThldGlitchEffect("thld_no_button_idle")
         pause 0.2
         repeat
 
-    image thld_music_button_idle = Text('Музыка', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
+    image thld_music_button_idle = Text("Музыка", font=thld_main_menu_font, size=thld_main_menu_buttons_size)
 
     image thld_music_button_hover:
-        ThldGlitchEffect('thld_music_button_idle')
+        ThldGlitchEffect("thld_music_button_idle")
         pause 0.2
-        ThldGlitchEffect('thld_music_button_idle')
+        ThldGlitchEffect("thld_music_button_idle")
         pause 0.2
         repeat
 
-    image thld_gallery_button_idle = Text('Галерея', font=thld_main_menu_font, size=thld_main_menu_buttons_size)
+    image thld_gallery_button_idle = Text("Галерея", font=thld_main_menu_font, size=thld_main_menu_buttons_size)
 
     image thld_gallery_button_hover:
-        ThldGlitchEffect('thld_gallery_button_idle')
+        ThldGlitchEffect("thld_gallery_button_idle")
         pause 0.2
-        ThldGlitchEffect('thld_gallery_button_idle')
+        ThldGlitchEffect("thld_gallery_button_idle")
         pause 0.2
         repeat
 
     image thld_main_menu_bar_null_glitched:
-        ThldGlitchEffect('thld_main_menu_bar_null')
+        ThldGlitchEffect("thld_main_menu_bar_null")
         pause 0.2
-        ThldGlitchEffect('thld_main_menu_bar_null')
+        ThldGlitchEffect("thld_main_menu_bar_null")
         pause 0.2
         repeat
-
-    transform thld_bus_moving():
-        subpixel True
-        truecenter
-        zoom 1.03
-
-        parallel:
-            linear 0.2 xoffset -2
-            linear 0.3 xoffset 3
-            linear 0.2 xoffset -1
-            linear 0.3 xoffset 2
-            repeat
-
-        parallel:
-            linear 0.2 yoffset -1
-            linear 0.25 yoffset 2
-            linear 0.2 yoffset -1
-            repeat

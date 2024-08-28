@@ -19,48 +19,48 @@ screen thld_main_menu():
             auto "thld_start_button_%s"
             xalign 0.5
             yalign 0.35
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), Hide('thld_main_menu', Dissolve(2.0)), SetVariable('thld_lock_quit_game_main_menu_var', False), Start('thld_1')]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), Hide("thld_main_menu", Dissolve(2.0)), SetVariable("thld_lock_quit_game_main_menu_var", False), Start("thld_1")]
 
         imagebutton:
             auto "thld_load_button_%s"
             xalign 0.5 
             yalign 0.475
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), SetVariable('thld_main_menu_var', False), ShowMenu('thld_load_main_menu')]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), SetVariable("thld_main_menu_var", False), ShowMenu("thld_load_main_menu")]
 
         imagebutton:
-            auto 'thld_extra_button_%s'
+            auto "thld_extra_button_%s"
             xalign 0.5 
             yalign 0.6
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), SetVariable('thld_main_menu_var', False), ShowMenu('thld_extra')]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), SetVariable("thld_main_menu_var", False), ShowMenu("thld_extra")]
 
         imagebutton:
-            auto 'thld_preferences_button_%s'
+            auto "thld_preferences_button_%s"
             xalign 0.5
             yalign 0.725
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), SetVariable('thld_main_menu_var', False), ShowMenu('thld_preferences_main_menu')]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), SetVariable("thld_main_menu_var", False), ShowMenu("thld_preferences_main_menu")]
 
         imagebutton:
-            auto 'thld_exit_button_%s'
+            auto "thld_exit_button_%s"
             xalign 0.5 
             yalign 0.85
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), SetVariable("thld_main_menu_var", False), ShowMenu("thld_quit_main_menu")]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), SetVariable("thld_main_menu_var", False), ShowMenu("thld_quit_main_menu")]
 
         imagebutton:
             auto "thld_logowhite_%s"
             xpos 1520
             ypos 800
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
             action OpenURL("https://vk.com/public176281709")
 
 screen thld_load_main_menu():
@@ -81,28 +81,44 @@ screen thld_load_main_menu():
             kerning 2
 
         imagebutton:
-            auto 'thld_return_button_%s'
+            auto "thld_return_button_%s"
             xalign 0.1
             ypos 970
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), SetVariable("thld_main_menu_var", True), Hide("thld_load_main_menu"), ShowMenu("thld_main_menu")]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), SetVariable("thld_main_menu_var", True), Hide("thld_load_main_menu"), ShowMenu("thld_main_menu")]
 
-        imagebutton:
-            auto 'thld_load_button_%s_'
-            xalign 0.5
-            ypos 970
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), ThldFunctionCallback(thld_on_load_callback, selected_slot), FileLoad(selected_slot, confirm=False)]
-                    
-        imagebutton:
-            auto 'thld_delete_button_%s'
-            xalign 0.9
-            ypos 970
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), FileDelete(selected_slot, confirm=False)]
+        if selected_slot != "_" and FileLoadable(selected_slot):
+            imagebutton:
+                auto "thld_load_button_%s_"
+                xalign 0.5
+                ypos 970
+                hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+                unhovered Stop("sound_loop")
+                action [Stop("sound_loop"), ThldFunctionCallback(thld_on_load_callback, selected_slot), FileLoad(selected_slot, confirm=False)]
+                        
+            imagebutton:
+                auto "thld_delete_button_%s"
+                xalign 0.9
+                ypos 970
+                hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+                unhovered Stop("sound_loop")
+                action [Stop("sound_loop"), FileDelete(selected_slot, confirm=False)]
+
+        else:
+            text "Загрузить игру":
+                font thld_main_menu_font
+                color "#d1d1d1"
+                size 60
+                xalign 0.5
+                ypos 970
+
+            text "Удалить":
+                font thld_main_menu_font
+                color "#d1d1d1"
+                size 60
+                xalign 0.9
+                ypos 970
             
         grid 4 3:
             xpos 0.11
@@ -149,28 +165,28 @@ screen thld_extra():
             kerning 2
 
         imagebutton:
-            auto 'thld_music_button_%s'
+            auto "thld_music_button_%s"
             xalign 0.5
             yalign 0.3
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), Hide('thld_extra'), ShowMenu('thld_music_room')]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), Hide("thld_extra"), ShowMenu("thld_music_room")]
 
         imagebutton:
-            auto 'thld_gallery_button_%s'
+            auto "thld_gallery_button_%s"
             xalign 0.5
             yalign 0.5
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), Hide('thld_extra'), ShowMenu('thld_backround_gallery')]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), Hide("thld_extra"), ShowMenu("thld_backround_gallery")]
 
         imagebutton:
-            auto 'thld_return_button_%s'
+            auto "thld_return_button_%s"
             xalign 0.1
             ypos 970
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), SetVariable("thld_main_menu_var", True), Hide("thld_extra"), ShowMenu("thld_main_menu")]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), SetVariable("thld_main_menu_var", True), Hide("thld_extra"), ShowMenu("thld_main_menu")]
 
 screen thld_preferences_main_menu():
     modal True
@@ -275,13 +291,13 @@ screen thld_preferences_main_menu():
         text ["Громкость музыки"]:
             font thld_main_menu_font
             size 60
-            xpos 430
+            xpos 380
             ypos 820
 
         bar:
             value Preference("music volume")
             right_bar "thld_main_menu_bar_full"
-            left_bar 'thld_main_menu_bar_null_glitched'
+            left_bar "thld_main_menu_bar_null_glitched"
             thumb "thld_main_menu_thumb"
             xpos 960
             ypos 813
@@ -289,12 +305,12 @@ screen thld_preferences_main_menu():
             ymaximum 85
 
         imagebutton:
-            auto 'thld_return_button_%s'
+            auto "thld_return_button_%s"
             xalign 0.1
             ypos 970
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), SetVariable("thld_main_menu_var", True), Hide("thld_preferences_main_menu"), ShowMenu("thld_main_menu")]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), SetVariable("thld_main_menu_var", True), Hide("thld_preferences_main_menu"), ShowMenu("thld_main_menu")]
 
 screen thld_quit_main_menu():
     modal True
@@ -305,7 +321,7 @@ screen thld_quit_main_menu():
     if not thld_main_menu_var:
         add "thld_main_menu_options_frame" xalign 0.5 yalign 0.5
 
-        text 'Вы действительно хотите выйти?':
+        text "Вы действительно хотите выйти?":
             font thld_main_menu_font
             size 80
             text_align 0.5
@@ -315,20 +331,20 @@ screen thld_quit_main_menu():
             kerning 2
 
         imagebutton:
-            auto 'thld_yes_button_%s'
+            auto "thld_yes_button_%s"
             xpos 493
             ypos 600
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), Hide('thld_quit_main_menu'), Function(thld_screens_diact), ShowMenu('main_menu')]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), Hide("thld_quit_main_menu"), Function(thld_screens_diact), ShowMenu("main_menu")]
 
         imagebutton:
-            auto 'thld_no_button_%s'
+            auto "thld_no_button_%s"
             xpos 1230
             ypos 600
-            hovered Play('sound_loop', thld_glitch, relative_volume=0.1)
-            unhovered Stop('sound_loop')
-            action [Stop('sound_loop'), SetVariable("thld_main_menu_var", True), Hide("thld_quit_main_menu"), ShowMenu("thld_main_menu")]
+            hovered Play("sound_loop", thld_glitch, relative_volume=0.1)
+            unhovered Stop("sound_loop")
+            action [Stop("sound_loop"), SetVariable("thld_main_menu_var", True), Hide("thld_quit_main_menu"), ShowMenu("thld_main_menu")]
         
 screen thld_preferences():
     tag menu
@@ -619,7 +635,7 @@ screen thld_save():
                         yfill False
                         style "thld_save_load_button_" + persistent.timeofday
                         has fixed
-                        text ("%s." % i + FileTime(i, format=" %d.%m.%y, %H:%M", empty=" " + 'Пусто') + "\n" + FileSaveName(i)) style "file_picker_text" xpos 15 ypos 15
+                        text ("%s." % i + FileTime(i, format=" %d.%m.%y, %H:%M", empty=" " + "Пусто") + "\n" + FileSaveName(i)) style "file_picker_text" xpos 15 ypos 15
     
 screen thld_load():
     tag menu
@@ -668,7 +684,7 @@ screen thld_load():
                         yfill False
                         style "thld_save_load_button_" + persistent.timeofday
                         has fixed
-                        text ("%s." % i + FileTime(i, format=" %d.%m.%y, %H:%M", empty=" " + 'Пусто') + "\n" +FileSaveName(i)) style "file_picker_text" xpos 15 ypos 15                  
+                        text ("%s." % i + FileTime(i, format=" %d.%m.%y, %H:%M", empty=" " + "Пусто") + "\n" +FileSaveName(i)) style "file_picker_text" xpos 15 ypos 15                  
                                 
 screen thld_say(what, who):    
     window background None id "window":
@@ -676,28 +692,28 @@ screen thld_say(what, who):
             add thld_gui_path + "dialogue_box/" + persistent.timeofday + "/dialogue_box_large.png" xpos 174 ypos 866
 
             imagebutton:
-                auto thld_gui_path + 'dialogue_box/' + persistent.timeofday + '/hide_%s.png' 
+                auto thld_gui_path + "dialogue_box/" + persistent.timeofday + "/hide_%s.png" 
                 xpos 1508 
                 ypos 883 
                 action HideInterface()
 
             imagebutton:
-                auto thld_gui_path + 'dialogue_box/' + persistent.timeofday + "/save_%s.png"
+                auto thld_gui_path + "dialogue_box/" + persistent.timeofday + "/save_%s.png"
                 xpos 1567
                 ypos 883
-                action ShowMenu('thld_save')
+                action ShowMenu("thld_save")
 
             imagebutton:
-                auto thld_gui_path + 'dialogue_box/' + persistent.timeofday + "/menu_%s.png"
+                auto thld_gui_path + "dialogue_box/" + persistent.timeofday + "/menu_%s.png"
                 xpos 1625 
                 ypos 883 
-                action ShowMenu('thld_game_menu_selector')
+                action ShowMenu("thld_game_menu_selector")
 
             imagebutton:
-                auto thld_gui_path + 'dialogue_box/' + persistent.timeofday + "/load_%s.png"
+                auto thld_gui_path + "dialogue_box/" + persistent.timeofday + "/load_%s.png"
                 xpos 1682 
                 ypos 883 
-                action ShowMenu('thld_load')
+                action ShowMenu("thld_load")
 
             imagebutton:
                 auto thld_gui_path + "dialogue_box/" + persistent.timeofday + "/backward_%s.png" 
@@ -739,28 +755,28 @@ screen thld_say(what, who):
             add thld_gui_path + "dialogue_box/" + persistent.timeofday + "/dialogue_box.png" xpos 174 ypos 916
 
             imagebutton:
-                auto thld_gui_path + 'dialogue_box/' + persistent.timeofday + "/hide_%s.png"
+                auto thld_gui_path + "dialogue_box/" + persistent.timeofday + "/hide_%s.png"
                 xpos 1508
                 ypos 933
                 action HideInterface()
 
             imagebutton:
-                auto thld_gui_path + 'dialogue_box/' + persistent.timeofday+"/save_%s.png"
+                auto thld_gui_path + "dialogue_box/" + persistent.timeofday+"/save_%s.png"
                 xpos 1567
                 ypos 933
-                action ShowMenu('thld_save')
+                action ShowMenu("thld_save")
 
             imagebutton:
-                auto thld_gui_path + 'dialogue_box/' + persistent.timeofday+"/menu_%s.png"
+                auto thld_gui_path + "dialogue_box/" + persistent.timeofday+"/menu_%s.png"
                 xpos 1625
                 ypos 933
-                action ShowMenu('thld_game_menu_selector')
+                action ShowMenu("thld_game_menu_selector")
 
             imagebutton:
-                auto thld_gui_path + 'dialogue_box/' + persistent.timeofday+"/load_%s.png"
+                auto thld_gui_path + "dialogue_box/" + persistent.timeofday+"/load_%s.png"
                 xpos 1682
                 ypos 933
-                action ShowMenu('thld_load')
+                action ShowMenu("thld_load")
 
             imagebutton:
                 auto thld_gui_path + "dialogue_box/" + persistent.timeofday + "/backward_%s.png" 

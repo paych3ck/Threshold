@@ -206,6 +206,6 @@ init python:
     style.thld_settings_text_sunset.hover_color = "#636840"
 
     style.thld_text_history = Style(style.thld_base_font)
-    style.thld_text_history.color = "#ffffff"
+    style.thld_text_history.color = "#e2c778"
     style.thld_text_history.drop_shadow = (2, 2)
     style.thld_text_history.drop_shadow_color = "#000"
