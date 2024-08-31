@@ -659,9 +659,9 @@ screen thld_load():
             style "thld_log_button" 
             text_style "thld_settings_link" 
             yalign 0.92 
-            xalign 0.5 
-            action (ThldFunctionCallback(thld_on_load_callback,selected_slot), FileLoad(selected_slot, confirm=False))
-        
+            xalign 0.5
+            action (ThldFunctionCallback(thld_on_load_callback, selected_slot), FileLoad(selected_slot, confirm=False))
+            
         textbutton ["Удалить"]: 
             style "thld_log_button" 
             text_style "thld_settings_link"
@@ -893,7 +893,7 @@ screen thld_game_menu_selector():
         imagemap:
             auto thld_gui_path + "quick_menu/" + persistent.timeofday + "/quick_menu_%s.png" xalign 0.5 yalign 0.5
 
-            hotspot (0, 83, 660, 65) focus_mask None clicked [thld_set_main_menu_cursor_curried(), MainMenu(confirm=False)]
+            hotspot (0, 83, 660, 65) focus_mask None clicked [Function(thld_set_dynamic_cursor, "main_menu"), MainMenu(confirm=False)]
 
             hotspot (0, 148, 660, 65) focus_mask None clicked ShowMenu("thld_save")
 

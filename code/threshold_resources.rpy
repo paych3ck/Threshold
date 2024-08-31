@@ -95,6 +95,10 @@ init python:
     thld_names["thld_pi_pharos"] = "Пионер"
     store.thld_names_list.append("thld_pi_pharos")
 
+    thld_colors["thld_engi"] = {"speaker_color": (1, 1, 1, 255)} # цвет поменять
+    thld_names["thld_engi"] = "Инженер"
+    store.thld_names_list.append("thld_engi")
+
     def thld_char_define(character_name, is_nvl=False):
         global DynamicCharacter
         global nvl
@@ -178,10 +182,21 @@ init python:
             thld_lock_quick_menu = False
             config.allow_skipping = True
 
-    def thld_set_main_menu_cursor():
-        config.mouse_displayable = MouseDisplayable(thld_gui_path + "misc/thld_cursor.png", 0, 0)
+    def thld_set_timeofday_cursor():
+        config.mouse_displayable = MouseDisplayable(thld_gui_path + 'cursors/' + persistent.timeofday + '/cursor.png', 0, 0)
 
-    thld_set_main_menu_cursor_curried = renpy.curry(thld_set_main_menu_cursor)
+    def thld_set_dynamic_cursor(state):
+        if thld_set_timeofday_cursor in config.overlay_functions:
+            config.overlay_functions.remove(thld_set_timeofday_cursor)
+
+        if state == 'timeofday':
+            config.overlay_functions.append(thld_set_timeofday_cursor)
+
+        elif state == 'main_menu':
+            config.mouse_displayable = MouseDisplayable(thld_gui_path + "cursors/main_menu/cursor.png", 0, 0)
+
+        elif state == 'null':
+            config.mouse_displayable = MouseDisplayable(Null(0, 0), 0, 0)
 
     def thld_set_time(timeofday, sprite_time=None):
         if sprite_time is None:
@@ -190,6 +205,27 @@ init python:
         renpy.block_rollback()
         persistent.timeofday = timeofday
         persistent.sprite_time = sprite_time
+
+    def thld_blink(blink_pause):
+        renpy.show("blink")
+        renpy.pause(blink_pause, hard=True)
+
+    def thld_unblink(scene_name, unblink_pause):
+        renpy.hide("blink")
+        renpy.scene()
+        renpy.show(scene_name)
+        renpy.show("unblink")
+        renpy.pause(unblink_pause, hard=True)
+
+    def thld_get_image_offsets(tag, zoom_factor, width, height):
+        pos = renpy.get_image_bounds(tag)
+
+        zoom_xoffset = (width * (zoom_factor - 1)) / 2
+        zoom_yoffset = (height * (zoom_factor - 1)) / 2
+
+        initial_xoffset = pos[0] + zoom_xoffset
+        initial_yoffset = pos[1] + zoom_yoffset
+        return initial_xoffset, initial_yoffset
     
     class ThldVector(renpy.object.Object):
         def __init__(self, *data):
@@ -507,6 +543,7 @@ init:
     $ thld_lock_quick_menu = False
 
     image thld_main_menu_particles = ThldDustParticles("thld/images/gui/misc/particle_dust.png", 300)
+    image thld_sunset_dust = ThldDustParticles("thld/images/gui/misc/sunset_particle_dust.png", 300)
     image thld_blank_skip = renpy.display.behavior.ImageButton(Null(1920, 1080), Null(1920, 1080), clicked=[Jump("thld_after_intro")])
 
     image thld_main_menu_options_frame = ThldBlackRectangle(width=1804, height=1028, alpha=0.6)

@@ -1,6 +1,6 @@
 init python:
     class ThldFunctionCallback(Action):
-        def __init__(self,function, *arguments):
+        def __init__(self, function, *arguments):
             self.function = function
             self.arguments = arguments
 
@@ -16,6 +16,7 @@ init python:
                 _preferences.volumes["music"] = persistent.thld_on_save_timeofday[slot][3]
                 _preferences.volumes["sfx"] = persistent.thld_on_save_timeofday[slot][4]
                 _preferences.volumes["voice"] = persistent.thld_on_save_timeofday[slot][5]
+                thld_set_dynamic_cursor("timeofday")
         
         except:
             pass
@@ -40,7 +41,6 @@ init python:
 
         layout.LOADING = "Потерять несохраненные данные?"
             
-        config.mouse_displayable = MouseDisplayable("thld/images/gui/misc/cursor.png", 0, 0)
         config.main_menu_music = "thld/sounds/music/thld_reef_inevitability.mp3"
         config.linear_saves_page_size = None
         persistent._file_page = "thld_FilePage_1"  
@@ -54,7 +54,8 @@ init python:
             renpy.display.screen.screens[(screen_name, None)] = renpy.display.screen.screens[("thld_old_" + screen_name, None)]
          
         layout.LOADING = "Загрузка приведёт к потере несохранённых данных.\nВы уверены, что хотите сделать это?"
-            
+        
+        config.overlay_functions.remove(thld_set_timeofday_cursor)
         config.mouse_displayable = MouseDisplayable("images/misc/mouse/1.png", 0, 0)
         config.main_menu_music = "sound/music/blow_with_the_fires.ogg"
 
