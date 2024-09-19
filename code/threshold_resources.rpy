@@ -31,9 +31,9 @@ init python:
 
     store.thld_names_list.append("thld_th")
 
-    thld_colors["thld_myself"] = {"speaker_color": "#088010"}
-    thld_names["thld_myself"] = "Я"
-    store.thld_names_list.append("thld_myself")
+    thld_colors["thld_me"] = {"speaker_color": "#088010"}
+    thld_names["thld_me"] = "Я"
+    store.thld_names_list.append("thld_me")
 
     thld_colors["thld_pacifist"] = {"speaker_color": "#088010"}
     thld_names["thld_pacifist"] = "Пацифист"
@@ -50,6 +50,10 @@ init python:
     thld_colors["thld_pi_teapot"] = {"speaker_color": (85, 19, 19, 255)}
     thld_names["thld_pi_teapot"] = "Пионер"
     store.thld_names_list.append("thld_pi_teapot")
+
+    thld_colors["thld_pi_railway"] = {"speaker_color": (85, 19, 19, 255)} #TODO: цвет поменять
+    thld_names["thld_pi_railway"] = "Пионер"
+    store.thld_names_list.append("thld_pi_railway")
 
     thld_colors["thld_teapot"] = {"speaker_color": (85, 19, 19, 255)}
     thld_names["thld_teapot"] = "Чайник"
@@ -71,10 +75,6 @@ init python:
     thld_names["thld_pi_ann"] = "Распорядитель"
     store.thld_names_list.append("thld_pi_ann")
 
-    thld_colors["thld_funny"] = {"speaker_color": (1, 1, 1, 255)} # поменять цвет
-    thld_names["thld_funny"] = "Смешной"
-    store.thld_names_list.append("thld_funny")
-
     thld_colors["thld_pi_mad"] = {"speaker_color": (159, 147, 147, 255)}
     thld_names["thld_pi_mad"] = "Помешанный"
     store.thld_names_list.append("thld_pi_mad")
@@ -87,17 +87,25 @@ init python:
     thld_names["thld_nit"] = "Ниточник"
     store.thld_names_list.append("thld_nit")
 
-    thld_colors["thld_pharos"] = {"speaker_color": (1, 1, 1, 255)} # цвет поменять
+    thld_colors["thld_pharos"] = {"speaker_color": (1, 1, 1, 255)} # TODO: цвет поменять
     thld_names["thld_pharos"] = "Маяк"
     store.thld_names_list.append("thld_pharos")
 
-    thld_colors["thld_pi_pharos"] = {"speaker_color": (1, 1, 1, 255)} # цвет поменять
+    thld_colors["thld_pi_pharos"] = {"speaker_color": (1, 1, 1, 255)} # TODO: цвет поменять
     thld_names["thld_pi_pharos"] = "Пионер"
     store.thld_names_list.append("thld_pi_pharos")
 
-    thld_colors["thld_engi"] = {"speaker_color": (1, 1, 1, 255)} # цвет поменять
+    thld_colors["thld_engi"] = {"speaker_color": (1, 1, 1, 255)} # TODO: цвет поменять
     thld_names["thld_engi"] = "Инженер"
     store.thld_names_list.append("thld_engi")
+
+    thld_colors["thld_gensek"] = {"speaker_color": (209, 209, 65, 255)}
+    thld_names["thld_gensek"] = "Генсек"
+    store.thld_names_list.append("thld_gensek")
+
+    thld_colors["thld_crowd"] = {"speaker_color": (209, 209, 65, 255)} # TODO: цвет поменять
+    thld_names["thld_crowd"] = "Толпа"
+    store.thld_names_list.append("thld_crowd")
 
     def thld_char_define(character_name, is_nvl=False):
         global DynamicCharacter
