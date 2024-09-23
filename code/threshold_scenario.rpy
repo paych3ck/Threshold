@@ -94,7 +94,7 @@ label thld_1:
     thld_narrator "На лбу выступил холодный пот."
     thld_th "Надо бежать отсюда, плевать на правила, плевать что будет! {w}Надо просто БЕЖАТЬ!"
     thld_narrator "Но тело не слушалось. {w}Ноги будто вросли в землю."
-    show thld_pi smile with dissolve
+    show thld_mad smile with dissolve
     thld_narrator "Помешанный занял место напротив меня."
     thld_pi_ann "Три!"
     thld_narrator "Он больше ничего не говорил. Просто смотрел прямо мне в глаза и скалился."
@@ -434,7 +434,7 @@ label thld_1:
     thld_narrator "Проехала сквозь пионера..."
     thld_narrator "Я слышу грохот, лязг и бряцанье. Они самые настоящие, а вот сама электричка - нет."
     thld_narrator "Уже четвёртый вагон проезжал сквозь разочарованного пионера."
-    thld_narrator "С опаской я подошел ближе и протянул руку к мчащимся вагонам."
+    thld_narrator "С опаской я подошел ближе и протянул руку к мчащимся вагонам." #TODO: сделать зум к поездам
     thld_narrator "По ощущениям это было подобно прикосновению к легкому ветру."
     thld_teapot "Ну как? Далеко на таком уедешь?"
     stop sound_loop fadeout 2
@@ -552,7 +552,7 @@ label thld_1:
     $ renpy.pause(1.5, hard=True)
     thld_narrator "Удостоверившись, что я не прячу на своём теле никакого оружия, он отошёл в сторону и в тот же момент вновь исчез из моего поля зрения." 
     thld_pi_preacher "Присаживайся, не стесняйся. Обычные меры предосторожности."
-    show thld_preacher fold normal:
+    show thld_preacher fold normal: #TODO: сделать зум персонажа
         ease 1 xcenter 0.5
     $ renpy.pause(1, hard=True)
     thld_narrator "Я принял приглашение и сел на стул, прямо напротив него."
@@ -713,30 +713,30 @@ label thld_1:
     scene bg thld_ext_tribune_night with Dissolve(1)
     thld_narrator "Не знаю зачем я снова сюда пришёл. За очередной порцией ночных кошмаров?" 
     thld_narrator "Вероятнее всего мне просто стало тоскливо, что завтра начнётся новый цикл и окружающий меня мир просто забудет обо всём, что случилось за эти семь дней."
-    show thld_pi smile at center with dissolve
+    show thld_mad smile at center with dissolve
     thld_pi_mad "О! Я тебя помню! Ты же тот бегун! Наконец-то у тебя хватило мужества вернуться и нормально умереть!"
-    show thld_pi smile:
+    show thld_mad smile:
         xcenter 0.5
         ease 0.5 zoom 1.05
     thld_narrator "Ко мне стремительно приближалался тот псих с осколком стекла от которого мне удалось убежать в прошлый раз." 
     thld_narrator "Всё моё естество кричало о том, что бить не вариант. Нужно бежать. Колени задрожали, ладони мгновенно вспотели." 
     thld_narrator "Я оглянулся на Чайника. Тот всё так же скрестив руки на груди молча наблюдал за мной." #FIXME: убрать упоминание позы
     thld_narrator "Возможно мне показалось, возможно я просто увидел то, что хотел, но всего в одно беглое мгновение мой спутник одобрительно кивнул головой."
-    show thld_pi smile:
+    show thld_mad smile:
         xcenter 0.5
         ease 0.5 zoom 1.1
     thld_narrator "Я не стал бежать. Повернув голову я посмотрел прямо в глаза того, кто по всей видимости, намеревался убить меня прямо здесь и прямо сейчас."
-    show thld_pi smile:
+    show thld_mad smile:
         xcenter 0.5
         ease 0.5 zoom 1.15
     thld_narrator "Он остановился в метре от меня. На его губах переливалась отвратительными полутонами ехидная ухмылка."
     $ renpy.pause(1, hard=True)
-    show thld_pi normal with dspr
+    show thld_mad normal with dspr
     thld_narrator "Спустя несколько секунд неприрывного зрительного контакта он вдруг перестал улыбаться." 
     thld_narrator "Видимо, он ожидал от меня другой реакции." 
     thld_pi_mad "И когда ты успел стать таким смелым?" 
     thld_me "Вчера. И я не буду участвовать в вашей бойне."
-    show thld_pi smile with dspr
+    show thld_mad smile with dspr
     thld_narrator "Лицо моего визави просветлело."
     thld_pi_mad "Ну и хорошо. Ты выйдешь на бой, а там я тебя безучастно убью. И живи себе завтра спокойно."
     thld_me "Мне кажется я достаточно ясно выразился, но повторю ещё раз. Я не выйду на это поле, чтобы убивать. Ни сегодня, ни завтра, ни когда-либо ещё." 
@@ -744,14 +744,14 @@ label thld_1:
     show thld_pharos pos1 normal with dspr:
         xcenter -0.3 ycenter 0.5 blur 8 alpha 0
         ease 1.5 xcenter 0.3 blur 0 alpha 1
-    show thld_pi smile:
+    show thld_mad smile:
         ease 1.5 xcenter 0.75
     $ renpy.pause(1.5, hard=True)
     thld_pharos "Не трус. Скорее, пацифист."
     thld_narrator "Неожиданно в разговор вмешался знакомый мне пионер." 
     thld_narrator "Сперва я не узнал его, пока не заметил ключ на шее. Это же Маяк! Правая рука Проповедника!" 
     thld_pharos "Если тебе так не хватает крови, то на бой с тобой выйду я. Как раз пришёл размяться."
-    show thld_pi normal with dspr
+    show thld_mad normal with dspr
     thld_pi_mad "Ты меня за идиота держишь? Я ведь не продержусь против тебя и минуты." 
     thld_narrator "Маяк кивнул в мою сторону." 
     thld_pharos "А он с тобой продержался бы дольше?" 
@@ -769,7 +769,7 @@ label thld_1:
     thld_th "Не к добру всё это."
     show thld_pharos pos1 normal with dspr
     thld_pi_mad "Вечный цикл! Я вам это припомню! А особенно тебе... Пацифист, блин."
-    show thld_pi normal:
+    show thld_mad normal:
         xcenter 0.75 zoom 1.15 blur 0 alpha 1
         ease 1.5 xcenter 1.3 blur 8 alpha 0
     $ renpy.pause(1.5, hard=True)
