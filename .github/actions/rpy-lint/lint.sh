@@ -27,8 +27,8 @@ fi
 
 if [ ! -d "game" ]; then
     echo "Downloading Everlasting Summer..."
-    if gdown --id "1MM3B6VRDXJDwQphj_sWuG8AthqIu8s-y" -O EverlastingSummer.zip; then
-        echo "Game downloaded successfully."
+    if wget -q -O EverlastingSummer.zip "${game_url}"; then
+        echo "Everlasting Summer downloaded successfully."
     else
         echo "Everlasting Summer download failed."
         exit 1
