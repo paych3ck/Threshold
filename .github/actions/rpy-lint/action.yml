@@ -1,0 +1,24 @@
+name: "rpy-lint"
+author: "paych3ck"
+description: "Zero Impact Everlasting Summer mods linter"
+inputs:
+  sdk_version:
+    description: "Ren'Py SDK version"
+    default: "8.1.3"
+    required: true
+  project_path:
+    description: "Project folder path"
+    default: "."
+  game_url:
+    description: "URL to download Everlasting Summer"
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.sdk_version }}
+    - ${{ inputs.project_path }}
+    - ${{ inputs.game_url }}
+branding:
+  color: "red"
+  icon: "check-square"
