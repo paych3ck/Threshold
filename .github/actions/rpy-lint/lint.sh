@@ -34,6 +34,9 @@ if [ ! -d "game" ]; then
         exit 1
     fi
 
+    echo "Directory files"
+    ls -l
+
     echo "Unzipping Everlasting Summer..."
     unzip -q EverlastingSummer.zip -d EverlastingSummer
     if [ $? -ne 0 ]; then
