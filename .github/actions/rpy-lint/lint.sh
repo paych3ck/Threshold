@@ -46,12 +46,14 @@ else
     echo "Everlasting Summer already exists."
 fi
 
-pwd
-ls -la
-ls -la "${project_path}"
+echo "Creating 'thld' directory in ${project_path}..."
+mkdir -p "${project_path}/thld"
 
-echo "Copying mod files..."
-cp -r "${project_path}/." "Everlasting Summer/game"
+echo "Copying 'code', 'images', and 'sounds' directories to 'thld'..."
+cp -r "${project_path}/code" "${project_path}/images" "${project_path}/sounds" "${project_path}/thld/"
+
+echo "Moving 'thld' directory to 'Everlasting Summer/game/'..."
+mv "${project_path}/thld" "Everlasting Summer/game/"
 
 echo "Linting project..."
-"${sdk_path}/renpy.sh" "Everlasting Summer/game" lint
+"${sdk_path}/renpy.sh" "Everlasting Summer/game/" lint
