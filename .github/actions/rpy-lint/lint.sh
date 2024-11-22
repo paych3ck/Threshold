@@ -27,7 +27,7 @@ fi
 
 if [ ! -d "game" ]; then
     echo "Downloading Everlasting Summer..."
-    if gdown --id "${google_drive_id}" -O EverlastingSummer.zip; then 
+    if gdown --id "${google_drive_id}" -O Everlasting Summer.zip; then 
         echo "Everlasting Summer downloaded successfully."
     else
         echo "Everlasting Summer download failed."
@@ -35,19 +35,19 @@ if [ ! -d "game" ]; then
     fi
 
     echo "Unzipping Everlasting Summer..."
-    unzip -q EverlastingSummer.zip
+    unzip -q Everlasting Summer.zip
     if [ $? -ne 0 ]; then
         echo "Everlasting Summer unzip failed."
         exit 1
     fi
 
-    rm EverlastingSummer.zip
+    rm Everlasting Summer.zip
 else
     echo "Everlasting Summer already exists."
 fi
 
 echo "Copying mod files..."
-cp -r "${project_path}/." "EverlastingSummer/game"
+cp -r "${project_path}/." "Everlasting Summer/game"
 
 echo "Linting project..."
-"${sdk_path}/renpy.sh" "EverlastingSummer/game" lint
+"${sdk_path}/renpy.sh" "Everlasting Summer/game" lint
