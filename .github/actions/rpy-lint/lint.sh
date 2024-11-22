@@ -46,6 +46,10 @@ else
     echo "Everlasting Summer already exists."
 fi
 
+pwd
+ls -la
+ls -la "${project_path}"
+
 echo "Copying mod files..."
 cp -r "${project_path}/." "Everlasting Summer/game"
 
