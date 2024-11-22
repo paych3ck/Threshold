@@ -197,13 +197,13 @@ init python:
         if thld_set_timeofday_cursor in config.overlay_functions:
             config.overlay_functions.remove(thld_set_timeofday_cursor)
 
-        if state == 'timeofday':
+        if state == "timeofday":
             config.overlay_functions.append(thld_set_timeofday_cursor)
 
-        elif state == 'main_menu':
+        elif state == "main_menu":
             config.mouse_displayable = MouseDisplayable(thld_gui_path + "cursors/main_menu/cursor.png", 0, 0)
 
-        elif state == 'null':
+        elif state == "null":
             config.mouse_displayable = MouseDisplayable(Null(0, 0), 0, 0)
 
     def thld_set_time(timeofday, sprite_time=None):
