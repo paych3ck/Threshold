@@ -191,7 +191,7 @@ init python:
             config.allow_skipping = True
 
     def thld_set_timeofday_cursor():
-        config.mouse_displayable = MouseDisplayable(thld_gui_path + 'cursors/' + persistent.timeofday + '/cursor.png', 0, 0)
+        config.mouse_displayable = MouseDisplayable(thld_gui_path + "cursors/" + persistent.timeofday + '/cursor.png', 0, 0)
 
     def thld_set_dynamic_cursor(state):
         if thld_set_timeofday_cursor in config.overlay_functions:
