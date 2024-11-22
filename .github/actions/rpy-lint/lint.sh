@@ -27,7 +27,7 @@ fi
 
 if [ ! -d "game" ]; then
     echo "Downloading Everlasting Summer..."
-    if wget -q -O EverlastingSummer.zip "${game_url}"; then
+    if gdown --id "${google_drive_id}" -O EverlastingSummer.zip; then 
         echo "Everlasting Summer downloaded successfully."
     else
         echo "Everlasting Summer download failed."
