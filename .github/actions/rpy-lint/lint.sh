@@ -47,7 +47,7 @@ else
 fi
 
 echo "Copying mod files..."
-cp -r "${project_path}/." "EverlastingSummer/game/mods/"
+cp -r "${project_path}/." "EverlastingSummer/game"
 
 echo "Linting project..."
-"${sdk_path}/renpy.sh" "game" lint
+"${sdk_path}/renpy.sh" "EverlastingSummer/game" lint
