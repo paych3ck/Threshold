@@ -9,8 +9,8 @@ inputs:
   project_path:
     description: "Project folder path"
     default: "."
-  game_url:
-    description: "URL to download Everlasting Summer"
+  google_drive_id:
+    description: "Google drive ID to download Everlasting Summer"
     required: true
 runs:
   using: "docker"
@@ -18,7 +18,7 @@ runs:
   args:
     - ${{ inputs.sdk_version }}
     - ${{ inputs.project_path }}
-    - ${{ inputs.game_url }}
+    - ${{ inputs.google_drive_id }}
 branding:
   color: "red"
   icon: "check-square"

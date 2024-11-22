@@ -1,7 +1,7 @@
 #!/bin/sh
 sdk_version=$1
 project_path=$2
-game_url=$3
+google_drive_id=$3
 
 sdk_name="renpy-${sdk_version}-sdk"
 
