@@ -30,6 +30,12 @@ jobs:
             echo "Everlasting Summer уже существует."
           fi
 
+      - name: Setting up files
+        run: |
+          mkdir -p thld
+          cp -r code images sounds thld/
+          mv thld "Everlasting Summer/game/"
+
       - name: Project lint
         run: |
           sdk_version='8.1.3'
