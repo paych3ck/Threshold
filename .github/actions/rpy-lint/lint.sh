@@ -27,7 +27,7 @@ fi
 
 if [ ! -d "game" ]; then
     echo "Downloading Everlasting Summer..."
-    if gdown --id "${google_drive_id}" -O Everlasting Summer.zip; then 
+    if gdown --id "${google_drive_id}" -O "Everlasting Summer.zip"; then 
         echo "Everlasting Summer downloaded successfully."
     else
         echo "Everlasting Summer download failed."
@@ -35,13 +35,13 @@ if [ ! -d "game" ]; then
     fi
 
     echo "Unzipping Everlasting Summer..."
-    unzip -q Everlasting Summer.zip
+    unzip -q "Everlasting Summer.zip"
     if [ $? -ne 0 ]; then
         echo "Everlasting Summer unzip failed."
         exit 1
     fi
 
-    rm Everlasting Summer.zip
+    rm "Everlasting Summer.zip"
 else
     echo "Everlasting Summer already exists."
 fi
