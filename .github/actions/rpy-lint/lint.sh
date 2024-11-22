@@ -56,4 +56,4 @@ echo "Moving 'thld' directory to 'Everlasting Summer/game/'..."
 mv "${project_path}/thld" "Everlasting Summer/game/"
 
 echo "Linting project..."
-"${sdk_path}/renpy.sh" "Everlasting Summer/game/" lint
+"${sdk_path}/renpy.sh" "Everlasting Summer/game/thld/" lint
