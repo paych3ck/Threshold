@@ -59,11 +59,11 @@ init python:
     thld_names["thld_teapot"] = "Чайник"
     store.thld_names_list.append("thld_teapot")
 
-    thld_colors["thld_preacher"] = {"speaker_color": "#FFFFFF"}
+    thld_colors["thld_preacher"] = {"speaker_color": "#FFFFFF"} #TODO: цвет поменять
     thld_names["thld_preacher"] = "Проповедник"
     store.thld_names_list.append("thld_preacher")
 
-    thld_colors["thld_pi_preacher"] = {"speaker_color": "#FFFFFF"}
+    thld_colors["thld_pi_preacher"] = {"speaker_color": "#FFFFFF"} #TODO: цвет поменять
     thld_names["thld_pi_preacher"] = "Пионер в халате"
     store.thld_names_list.append("thld_pi_preacher")
 
