@@ -37,15 +37,16 @@ jobs:
         id: cache-game
         uses: actions/cache@v3
         with:
-          path: "./"
+          path: "./game_files"
           key: ${{ runner.os }}-everlasting-summer-${{ env.ES_VER }}-${{ env.GOOGLE_DRIVE_ID }}
 
       - name: Download Everlasting Summer
         if: steps.cache-game.outputs.cache-hit != 'true'
         run: |
+          mkdir -p ./game_files
           pip install gdown
           gdown --id "${{ env.GOOGLE_DRIVE_ID }}" -O "Everlasting Summer.zip"
-          unzip -q "Everlasting Summer.zip" -d "./"
+          unzip -q "Everlasting Summer.zip" -d "./game_files"
           rm "Everlasting Summer.zip"
           
   basic-lint:
@@ -66,19 +67,19 @@ jobs:
         id: cache-game
         uses: actions/cache@v3
         with:
-          path: "./"
+          path: "./game_files"
           key: ${{ runner.os }}-everlasting-summer-${{ env.ES_VER }}-${{ env.GOOGLE_DRIVE_ID }}
 
       - name: Copy mod files to game directory
         run: |
-          mkdir -p "./Everlasting Summer/game/$PROJECT_NAME"
-          cp -r ./code ./images ./sounds "./Everlasting Summer/game/$PROJECT_NAME"
+          mkdir -p "./game_files/Everlasting Summer/game/$PROJECT_NAME"
+          cp -r ./code ./images ./sounds "./game_files/Everlasting Summer/game/$PROJECT_NAME"
           echo "Folder contents:"
-          ls "./Everlasting Summer/game"
+          ls "./game_files/Everlasting Summer/game"
 
       - name: Run Ren'Py Lint
         run: |
-          ~/.renpy-sdk/renpy-${{ env.SDK_VERSION }}-sdk/renpy.sh "./Everlasting Summer/game/" lint lint_report.txt
+          ~/.renpy-sdk/renpy-${{ env.SDK_VERSION }}-sdk/renpy.sh "./game_files/Everlasting Summer/game/" lint lint_report.txt
         shell: bash
 
       - name: Upload Lint Report
