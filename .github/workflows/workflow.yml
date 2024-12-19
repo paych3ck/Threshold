@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint:
-    uses: paych3ck/es_mod_workflow/.github/workflows/lint_es_mod.yml@v13
+    uses: paych3ck/es_mod_workflow/.github/workflows/lint_es_mod.yml@v14
     with:
       project_name: "thld"
       sdk_version: "8.1.3"
