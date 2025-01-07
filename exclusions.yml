@@ -1,2 +1,6 @@
 commands:
   - "$ thld_unblink"
+  
+words:
+  - "Электроовца"
+  - "Наблюдалка"
